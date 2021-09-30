@@ -4,15 +4,17 @@ namespace Livraria.WebAPI.Models
     {
         public Editora() { }
 
-        public Editora(int id_editora, string name_editora, string cidade_editora)
+        public Editora(int id, string nameEditora, string cidadeEditora, int idEditora)
         {
-            this.id_editora = id_editora;
-            this.name_editora = name_editora;
-            this.cidade_editora = cidade_editora;
-
+            Id = id;
+            NameEditora = nameEditora;
+            CidadeEditora = cidadeEditora;
+            IdEditora = idEditora;
         }
-        public int id_editora { get; set; }
-        public string name_editora { get; set; }
-        public string cidade_editora { get; set; }
+
+        public int Id { get; set; }
+        public string NameEditora { get; set; }
+        public string CidadeEditora { get; set; }
+        public int IdEditora { get; set; }
     }
 }
