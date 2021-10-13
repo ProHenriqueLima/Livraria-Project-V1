@@ -32,6 +32,7 @@ namespace Livraria.WebAPI
             services.AddDbContext<LivrariaContext>(
                 context => context.UseSqlite(Configuration.GetConnectionString("default"))
             );
+            services.AddScoped<IRepository, Repository>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

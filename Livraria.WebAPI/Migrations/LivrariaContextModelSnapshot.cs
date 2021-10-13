@@ -30,9 +30,6 @@ namespace Livraria.WebAPI.Migrations
                     b.Property<string>("EnderecoCliente")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("IdCliente")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("NomeCliente")
                         .HasColumnType("TEXT");
 
@@ -47,7 +44,6 @@ namespace Livraria.WebAPI.Migrations
                             CidadeCliente = "Fortaleza",
                             EmailCliente = "prohenriquelima@gmail.com",
                             EnderecoCliente = "Rua 27",
-                            IdCliente = 0,
                             NomeCliente = "Marta"
                         },
                         new
@@ -56,7 +52,6 @@ namespace Livraria.WebAPI.Migrations
                             CidadeCliente = "Bahia",
                             EmailCliente = "prohenriquelima@gmail.com",
                             EnderecoCliente = "Rua 21",
-                            IdCliente = 0,
                             NomeCliente = "Paula"
                         },
                         new
@@ -65,7 +60,6 @@ namespace Livraria.WebAPI.Migrations
                             CidadeCliente = "SaoPaulo",
                             EmailCliente = "prohenriquelima@gmail.com",
                             EnderecoCliente = "Rua 22",
-                            IdCliente = 0,
                             NomeCliente = "Laura"
                         },
                         new
@@ -74,7 +68,6 @@ namespace Livraria.WebAPI.Migrations
                             CidadeCliente = "Juazeiro",
                             EmailCliente = "prohenriquelima@gmail.com",
                             EnderecoCliente = "Rua 23",
-                            IdCliente = 0,
                             NomeCliente = "Luiza"
                         },
                         new
@@ -83,7 +76,6 @@ namespace Livraria.WebAPI.Migrations
                             CidadeCliente = "Fortim",
                             EmailCliente = "prohenriquelima@gmail.com",
                             EnderecoCliente = "Rua 24",
-                            IdCliente = 0,
                             NomeCliente = "Lucas"
                         },
                         new
@@ -92,7 +84,6 @@ namespace Livraria.WebAPI.Migrations
                             CidadeCliente = "Aracati",
                             EmailCliente = "prohenriquelima@gmail.com",
                             EnderecoCliente = "Rua 25",
-                            IdCliente = 0,
                             NomeCliente = "Pedro"
                         },
                         new
@@ -101,7 +92,6 @@ namespace Livraria.WebAPI.Migrations
                             CidadeCliente = "Quixaba",
                             EmailCliente = "prohenriquelima@gmail.com",
                             EnderecoCliente = "Rua 26",
-                            IdCliente = 0,
                             NomeCliente = "Paulo"
                         });
                 });
@@ -115,9 +105,6 @@ namespace Livraria.WebAPI.Migrations
                     b.Property<string>("CidadeEditora")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("IdEditora")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("NameEditora")
                         .HasColumnType("TEXT");
 
@@ -130,37 +117,47 @@ namespace Livraria.WebAPI.Migrations
                         {
                             Id = 1,
                             CidadeEditora = "Fortaleza",
-                            IdEditora = 0,
                             NameEditora = "Viva"
                         },
                         new
                         {
                             Id = 2,
                             CidadeEditora = "Fortaleza",
-                            IdEditora = 0,
                             NameEditora = "Tim"
                         },
                         new
                         {
                             Id = 3,
                             CidadeEditora = "Fortaleza",
-                            IdEditora = 0,
                             NameEditora = "Dominas"
                         },
                         new
                         {
                             Id = 4,
                             CidadeEditora = "Fortaleza",
-                            IdEditora = 0,
                             NameEditora = "Cacau"
                         },
                         new
                         {
                             Id = 5,
                             CidadeEditora = "Fortaleza",
-                            IdEditora = 0,
                             NameEditora = "Prog"
                         });
+                });
+
+            modelBuilder.Entity("Livraria.WebAPI.Models.EditoraLivro", b =>
+                {
+                    b.Property<int>("EditoraId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("LivroId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("EditoraId", "LivroId");
+
+                    b.HasIndex("LivroId");
+
+                    b.ToTable("EditoraLivros");
                 });
 
             modelBuilder.Entity("Livraria.WebAPI.Models.Livro", b =>
@@ -169,11 +166,17 @@ namespace Livraria.WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("IdEditora")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("AutorLivro")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LancamentoLivro")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("NomeLivro")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("Quantidade")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -183,33 +186,58 @@ namespace Livraria.WebAPI.Migrations
                         new
                         {
                             Id = 1,
-                            IdEditora = 0,
-                            NomeLivro = "Harry"
+                            AutorLivro = "João Sthepfan",
+                            LancamentoLivro = "04/2005",
+                            NomeLivro = "Harry",
+                            Quantidade = 100
                         },
                         new
                         {
                             Id = 2,
-                            IdEditora = 0,
-                            NomeLivro = "Potter"
+                            AutorLivro = "Jo Sthepf",
+                            LancamentoLivro = "05/2010",
+                            NomeLivro = "Potter",
+                            Quantidade = 80
                         },
                         new
                         {
                             Id = 3,
-                            IdEditora = 0,
-                            NomeLivro = "RosiVelw"
+                            AutorLivro = "Marcos fan",
+                            LancamentoLivro = "06/2003",
+                            NomeLivro = "RosiVelw",
+                            Quantidade = 20
                         },
                         new
                         {
                             Id = 4,
-                            IdEditora = 0,
-                            NomeLivro = "Biblia"
+                            AutorLivro = "JoJo epn",
+                            LancamentoLivro = "07/2005",
+                            NomeLivro = "Biblia",
+                            Quantidade = 70
                         },
                         new
                         {
                             Id = 5,
-                            IdEditora = 0,
-                            NomeLivro = "Thomas"
+                            AutorLivro = "Henrique Show",
+                            LancamentoLivro = "08/2008",
+                            NomeLivro = "Thomas",
+                            Quantidade = 60
                         });
+                });
+
+            modelBuilder.Entity("Livraria.WebAPI.Models.EditoraLivro", b =>
+                {
+                    b.HasOne("Livraria.WebAPI.Models.Editora", "Editora")
+                        .WithMany("EditoraLivros")
+                        .HasForeignKey("EditoraId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Livraria.WebAPI.Models.Livro", "Livro")
+                        .WithMany("EditoraLivros")
+                        .HasForeignKey("LivroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

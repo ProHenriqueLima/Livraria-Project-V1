@@ -4,14 +4,13 @@ namespace Livraria.WebAPI.Models
     {
         public Cliente() { }
 
-        public Cliente(int id, string nomeCliente, string cidadeCliente, string enderecoCliente, string emailCliente, int idCliente)
+        public Cliente(int id, string nomeCliente, string cidadeCliente, string enderecoCliente, string emailCliente)
         {
             Id = id;
             NomeCliente = nomeCliente;
             CidadeCliente = cidadeCliente;
             EnderecoCliente = enderecoCliente;
             EmailCliente = emailCliente;
-            IdCliente = idCliente;
         }
 
         public int Id { get; set; }
@@ -23,6 +22,6 @@ namespace Livraria.WebAPI.Models
         public string EnderecoCliente { get; set; }
 
         public string EmailCliente { get; set; }
-        public int IdCliente { get; set; }
+
     }
 }

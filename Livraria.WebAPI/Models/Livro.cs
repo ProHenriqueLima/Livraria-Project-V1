@@ -1,18 +1,26 @@
+using System.Collections.Generic;
+
 namespace Livraria.WebAPI.Models
 {
     public class Livro
     {
         public Livro(){}
 
-        public Livro(int id, string nomeLivro, int idEditora)
+        public Livro(int id, string nomeLivro, string lancamentoLivro, string autorLivro, int quantidade)
         {
             Id = id;
             NomeLivro = nomeLivro;
-            IdEditora = idEditora;
+            LancamentoLivro = lancamentoLivro;
+            AutorLivro = autorLivro;
+            Quantidade = quantidade;
         }
 
         public int Id{ get; set; }
         public string NomeLivro { get; set; }
-        public int IdEditora { get; set; }
+        public string LancamentoLivro { get; set; }
+        public string AutorLivro { get; set; }
+        public int Quantidade { get; set; }
+        public IEnumerable<EditoraLivro> EditoraLivros { get; set; }
+        
     }
 }
