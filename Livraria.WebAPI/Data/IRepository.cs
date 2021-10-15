@@ -16,13 +16,14 @@ namespace Livraria.WebAPI.Data
 
          // Livro method
 
-        Livro[] GetAllLivro();
-        Livro GetAllLivroByID(int LivroID);
+        Livro[] GetAllLivro( bool includeEditora);
+        Livro GetAllLivroByID(int LivroID , bool includeEditora);
 
         Cliente[] GetAllCliente();
         Cliente GetClienteByID(int ClienteID);
 
-
+        Aluguel[] GetAllAluguel(bool includeLivro , bool includeCliente);
+        Aluguel GetAluguelById(int AluguelID , bool includeLivro , bool includeCliente);
 
     }
 }

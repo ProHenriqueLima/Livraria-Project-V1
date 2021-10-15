@@ -15,6 +15,47 @@ namespace Livraria.WebAPI.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.0");
 
+            modelBuilder.Entity("Livraria.WebAPI.Models.Aluguel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("LivroId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
+
+                    b.HasIndex("LivroId");
+
+                    b.ToTable("Alugueis");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClienteId = 1,
+                            LivroId = 2
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ClienteId = 4,
+                            LivroId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ClienteId = 1,
+                            LivroId = 3
+                        });
+                });
+
             modelBuilder.Entity("Livraria.WebAPI.Models.Cliente", b =>
                 {
                     b.Property<int>("Id")
@@ -145,21 +186,6 @@ namespace Livraria.WebAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Livraria.WebAPI.Models.EditoraLivro", b =>
-                {
-                    b.Property<int>("EditoraId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("LivroId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("EditoraId", "LivroId");
-
-                    b.HasIndex("LivroId");
-
-                    b.ToTable("EditoraLivros");
-                });
-
             modelBuilder.Entity("Livraria.WebAPI.Models.Livro", b =>
                 {
                     b.Property<int>("Id")
@@ -168,6 +194,9 @@ namespace Livraria.WebAPI.Migrations
 
                     b.Property<string>("AutorLivro")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("EditoraID")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("LancamentoLivro")
                         .HasColumnType("TEXT");
@@ -180,6 +209,8 @@ namespace Livraria.WebAPI.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EditoraID");
+
                     b.ToTable("Livros");
 
                     b.HasData(
@@ -187,6 +218,7 @@ namespace Livraria.WebAPI.Migrations
                         {
                             Id = 1,
                             AutorLivro = "João Sthepfan",
+                            EditoraID = 2,
                             LancamentoLivro = "04/2005",
                             NomeLivro = "Harry",
                             Quantidade = 100
@@ -195,6 +227,7 @@ namespace Livraria.WebAPI.Migrations
                         {
                             Id = 2,
                             AutorLivro = "Jo Sthepf",
+                            EditoraID = 2,
                             LancamentoLivro = "05/2010",
                             NomeLivro = "Potter",
                             Quantidade = 80
@@ -203,6 +236,7 @@ namespace Livraria.WebAPI.Migrations
                         {
                             Id = 3,
                             AutorLivro = "Marcos fan",
+                            EditoraID = 2,
                             LancamentoLivro = "06/2003",
                             NomeLivro = "RosiVelw",
                             Quantidade = 20
@@ -211,6 +245,7 @@ namespace Livraria.WebAPI.Migrations
                         {
                             Id = 4,
                             AutorLivro = "JoJo epn",
+                            EditoraID = 2,
                             LancamentoLivro = "07/2005",
                             NomeLivro = "Biblia",
                             Quantidade = 70
@@ -219,23 +254,33 @@ namespace Livraria.WebAPI.Migrations
                         {
                             Id = 5,
                             AutorLivro = "Henrique Show",
+                            EditoraID = 2,
                             LancamentoLivro = "08/2008",
                             NomeLivro = "Thomas",
                             Quantidade = 60
                         });
                 });
 
-            modelBuilder.Entity("Livraria.WebAPI.Models.EditoraLivro", b =>
+            modelBuilder.Entity("Livraria.WebAPI.Models.Aluguel", b =>
                 {
-                    b.HasOne("Livraria.WebAPI.Models.Editora", "Editora")
-                        .WithMany("EditoraLivros")
-                        .HasForeignKey("EditoraId")
+                    b.HasOne("Livraria.WebAPI.Models.Cliente", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Livraria.WebAPI.Models.Livro", "Livro")
-                        .WithMany("EditoraLivros")
+                        .WithMany()
                         .HasForeignKey("LivroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Livraria.WebAPI.Models.Livro", b =>
+                {
+                    b.HasOne("Livraria.WebAPI.Models.Editora", "Editora")
+                        .WithMany()
+                        .HasForeignKey("EditoraID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

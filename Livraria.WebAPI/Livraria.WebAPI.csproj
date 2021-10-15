@@ -3,22 +3,11 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Migrations\20210924175448_inicial.cs" />
-    <Compile Remove="Migrations\20210924175448_inicial.Designer.cs" />
-    <Compile Remove="Migrations\20210929141054_inical.cs" />
-    <Compile Remove="Migrations\20210929141054_inical.Designer.cs" />
-    <Compile Remove="Migrations\20210929141952_init.cs" />
-    <Compile Remove="Migrations\20210929141952_init.Designer.cs" />
-    <Compile Remove="Migrations\20210929150759_init.cs" />
-    <Compile Remove="Migrations\20210929150759_init.Designer.cs" />
-    <Compile Remove="Migrations\20210929150916_init.cs" />
-    <Compile Remove="Migrations\20210929150916_init.Designer.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 </Project>

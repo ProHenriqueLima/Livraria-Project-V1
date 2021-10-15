@@ -45,31 +45,40 @@ namespace Livraria.WebAPI.Migrations
                     NomeLivro = table.Column<string>(nullable: true),
                     LancamentoLivro = table.Column<string>(nullable: true),
                     AutorLivro = table.Column<string>(nullable: true),
-                    Quantidade = table.Column<int>(nullable: false)
+                    Quantidade = table.Column<int>(nullable: false),
+                    EditoraID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Livros", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Livros_Editoras_EditoraID",
+                        column: x => x.EditoraID,
+                        principalTable: "Editoras",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "EditoraLivros",
+                name: "Alugueis",
                 columns: table => new
                 {
-                    EditoraId = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ClienteId = table.Column<int>(nullable: false),
                     LivroId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EditoraLivros", x => new { x.EditoraId, x.LivroId });
+                    table.PrimaryKey("PK_Alugueis", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EditoraLivros_Editoras_EditoraId",
-                        column: x => x.EditoraId,
-                        principalTable: "Editoras",
+                        name: "FK_Alugueis_Clientes_ClienteId",
+                        column: x => x.ClienteId,
+                        principalTable: "Clientes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_EditoraLivros_Livros_LivroId",
+                        name: "FK_Alugueis_Livros_LivroId",
                         column: x => x.LivroId,
                         principalTable: "Livros",
                         principalColumn: "Id",
@@ -114,12 +123,7 @@ namespace Livraria.WebAPI.Migrations
             migrationBuilder.InsertData(
                 table: "Editoras",
                 columns: new[] { "Id", "CidadeEditora", "NameEditora" },
-                values: new object[] { 5, "Fortaleza", "Prog" });
-
-            migrationBuilder.InsertData(
-                table: "Editoras",
-                columns: new[] { "Id", "CidadeEditora", "NameEditora" },
-                values: new object[] { 4, "Fortaleza", "Cacau" });
+                values: new object[] { 1, "Fortaleza", "Viva" });
 
             migrationBuilder.InsertData(
                 table: "Editoras",
@@ -129,57 +133,87 @@ namespace Livraria.WebAPI.Migrations
             migrationBuilder.InsertData(
                 table: "Editoras",
                 columns: new[] { "Id", "CidadeEditora", "NameEditora" },
-                values: new object[] { 1, "Fortaleza", "Viva" });
+                values: new object[] { 3, "Fortaleza", "Dominas" });
 
             migrationBuilder.InsertData(
                 table: "Editoras",
                 columns: new[] { "Id", "CidadeEditora", "NameEditora" },
-                values: new object[] { 3, "Fortaleza", "Dominas" });
+                values: new object[] { 4, "Fortaleza", "Cacau" });
+
+            migrationBuilder.InsertData(
+                table: "Editoras",
+                columns: new[] { "Id", "CidadeEditora", "NameEditora" },
+                values: new object[] { 5, "Fortaleza", "Prog" });
 
             migrationBuilder.InsertData(
                 table: "Livros",
-                columns: new[] { "Id", "AutorLivro", "LancamentoLivro", "NomeLivro", "Quantidade" },
-                values: new object[] { 4, "JoJo epn", "07/2005", "Biblia", 70 });
+                columns: new[] { "Id", "AutorLivro", "EditoraID", "LancamentoLivro", "NomeLivro", "Quantidade" },
+                values: new object[] { 1, "João Sthepfan", 2, "04/2005", "Harry", 100 });
 
             migrationBuilder.InsertData(
                 table: "Livros",
-                columns: new[] { "Id", "AutorLivro", "LancamentoLivro", "NomeLivro", "Quantidade" },
-                values: new object[] { 1, "João Sthepfan", "04/2005", "Harry", 100 });
+                columns: new[] { "Id", "AutorLivro", "EditoraID", "LancamentoLivro", "NomeLivro", "Quantidade" },
+                values: new object[] { 2, "Jo Sthepf", 2, "05/2010", "Potter", 80 });
 
             migrationBuilder.InsertData(
                 table: "Livros",
-                columns: new[] { "Id", "AutorLivro", "LancamentoLivro", "NomeLivro", "Quantidade" },
-                values: new object[] { 2, "Jo Sthepf", "05/2010", "Potter", 80 });
+                columns: new[] { "Id", "AutorLivro", "EditoraID", "LancamentoLivro", "NomeLivro", "Quantidade" },
+                values: new object[] { 3, "Marcos fan", 2, "06/2003", "RosiVelw", 20 });
 
             migrationBuilder.InsertData(
                 table: "Livros",
-                columns: new[] { "Id", "AutorLivro", "LancamentoLivro", "NomeLivro", "Quantidade" },
-                values: new object[] { 3, "Marcos fan", "06/2003", "RosiVelw", 20 });
+                columns: new[] { "Id", "AutorLivro", "EditoraID", "LancamentoLivro", "NomeLivro", "Quantidade" },
+                values: new object[] { 4, "JoJo epn", 2, "07/2005", "Biblia", 70 });
 
             migrationBuilder.InsertData(
                 table: "Livros",
-                columns: new[] { "Id", "AutorLivro", "LancamentoLivro", "NomeLivro", "Quantidade" },
-                values: new object[] { 5, "Henrique Show", "08/2008", "Thomas", 60 });
+                columns: new[] { "Id", "AutorLivro", "EditoraID", "LancamentoLivro", "NomeLivro", "Quantidade" },
+                values: new object[] { 5, "Henrique Show", 2, "08/2008", "Thomas", 60 });
+
+            migrationBuilder.InsertData(
+                table: "Alugueis",
+                columns: new[] { "Id", "ClienteId", "LivroId" },
+                values: new object[] { 1, 1, 2 });
+
+            migrationBuilder.InsertData(
+                table: "Alugueis",
+                columns: new[] { "Id", "ClienteId", "LivroId" },
+                values: new object[] { 2, 4, 2 });
+
+            migrationBuilder.InsertData(
+                table: "Alugueis",
+                columns: new[] { "Id", "ClienteId", "LivroId" },
+                values: new object[] { 3, 1, 3 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_EditoraLivros_LivroId",
-                table: "EditoraLivros",
+                name: "IX_Alugueis_ClienteId",
+                table: "Alugueis",
+                column: "ClienteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Alugueis_LivroId",
+                table: "Alugueis",
                 column: "LivroId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Livros_EditoraID",
+                table: "Livros",
+                column: "EditoraID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Alugueis");
+
+            migrationBuilder.DropTable(
                 name: "Clientes");
 
             migrationBuilder.DropTable(
-                name: "EditoraLivros");
+                name: "Livros");
 
             migrationBuilder.DropTable(
                 name: "Editoras");
-
-            migrationBuilder.DropTable(
-                name: "Livros");
         }
     }
 }

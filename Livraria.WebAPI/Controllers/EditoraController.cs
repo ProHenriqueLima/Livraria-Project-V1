@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using Livraria.WebAPI.Data;
+using Livraria.WebAPI.Dtos;
 using Livraria.WebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,19 +14,20 @@ namespace Livraria.WebAPI.Controllers
     {
         
         private readonly IRepository _repo;
-       
+         private readonly IMapper _mapper;
 
-        public EditoraController( IRepository repo)
+        public EditoraController(IRepository repo, IMapper mapper)
         {
             _repo = repo;
-           
+            _mapper = mapper;
         }
 
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_repo.GetAllEditoras());
+            var editora =_repo.GetAllEditoras();
+            return Ok(_mapper.Map<IEnumerable<EditoraDto>>(editora));
         }
 
 
@@ -33,7 +36,8 @@ namespace Livraria.WebAPI.Controllers
         {
             var editora = _repo.GetAllEditoraByID(id);
             if (editora == null) return BadRequest("Editora não encontrado");
-            return Ok(editora);
+            var editoraDto = _mapper.Map<EditoraDto>(editora);
+            return Ok(editoraDto);
         }
         
         [HttpPost]
@@ -42,7 +46,8 @@ namespace Livraria.WebAPI.Controllers
            _repo.Add(editora);
            if (_repo.SaveChanges())
            {
-               return Ok(editora);
+            var editoraDto = _mapper.Map<EditoraDto>(editora);
+            return Ok(editoraDto);
            }
            return BadRequest("Editora não encontrada");
             
@@ -71,7 +76,8 @@ namespace Livraria.WebAPI.Controllers
             _repo.update(editora);
            if (_repo.SaveChanges())
            {
-               return Ok(editora);
+               var editoraDto = _mapper.Map<EditoraDto>(editora);
+            return Ok(editoraDto);
            }
            return BadRequest("Editora não Atualizada");
         }

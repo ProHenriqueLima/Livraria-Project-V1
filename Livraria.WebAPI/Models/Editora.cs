@@ -16,6 +16,5 @@ namespace Livraria.WebAPI.Models
         public int Id { get; set; }
         public string NameEditora { get; set; }
         public string CidadeEditora { get; set; }
-        public IEnumerable<EditoraLivro> EditoraLivros { get; set; }
     }
 }

@@ -47,20 +47,25 @@ namespace Livraria.WebAPI.Data
             return query.FirstOrDefault();
         }
 
-        public Livro[] GetAllLivro()
+        public Livro[] GetAllLivro( bool includeEditora)
         {
            IQueryable<Livro> query = this.context.Livros;
 
-           
+           if(includeEditora){
+               query = query.Include(e => e.Editora);
+           }
 
             query = query.AsNoTracking().OrderBy(livro => livro.Id);
 
             return query.ToArray();
         }
 
-        public Livro GetAllLivroByID(int LivroID)
+        public Livro GetAllLivroByID(int LivroID, bool includeEditora)
         {
             IQueryable<Livro> query = this.context.Livros;
+            if(includeEditora){
+               query = query.Include(e => e.Editora);
+           }
             query = query.AsNoTracking()
             .OrderBy(livro => livro.Id)
             .Where(livro => livro.Id == LivroID);
@@ -82,6 +87,37 @@ namespace Livraria.WebAPI.Data
             query = query.AsNoTracking()
             .OrderBy(cliente => cliente.Id)
             .Where(cliente => cliente.Id == ClienteID);
+            return query.FirstOrDefault();
+        }
+
+        public Aluguel[] GetAllAluguel(bool includeLivro , bool includeCliente)
+        {
+            IQueryable<Aluguel> query = this.context.Alugueis;
+
+           if(includeLivro){
+               query = query.Include(l => l.Livro);
+           }
+           if(includeCliente){
+               query = query.Include(c => c.Cliente);
+           }
+
+            query = query.AsNoTracking().OrderBy(aluguel => aluguel.Id);
+
+            return query.ToArray();
+        }
+
+        public Aluguel GetAluguelById(int AluguelID, bool includeLivro, bool includeCliente)
+        {
+            IQueryable<Aluguel> query = this.context.Alugueis;
+            if(includeLivro){
+               query = query.Include(l => l.Livro);
+           }
+           if(includeCliente){
+               query = query.Include(c => c.Cliente);
+           }
+            query = query.AsNoTracking()
+            .OrderBy(Aluguel => Aluguel.Id)
+            .Where(Aluguel => Aluguel.Id == AluguelID);
             return query.FirstOrDefault();
         }
     }
