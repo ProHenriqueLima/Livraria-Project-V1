@@ -2,14 +2,16 @@
 using Livraria.WebAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Livraria.WebAPI.Migrations
 {
     [DbContext(typeof(LivrariaContext))]
-    partial class LivrariaContextModelSnapshot : ModelSnapshot
+    [Migration("20211015152620_initMysql")]
+    partial class initMysql
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

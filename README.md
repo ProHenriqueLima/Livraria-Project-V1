@@ -1,1 +1,0 @@
-## Meu primeiro Crud em AspNetCoreAPI

@@ -21,7 +21,7 @@ namespace Livraria.WebAPI.Controllers
         }
         
         
-
+                        // Metódos !
         [HttpGet]
         public IActionResult Get()
         {
@@ -31,15 +31,15 @@ namespace Livraria.WebAPI.Controllers
 
 
         [HttpPost]
-        public IActionResult Post(Editora editora)
+        public IActionResult Post(Aluguel aluguel)
         {
-            _repo.Add(editora);
+            _repo.Add(aluguel);
            if (_repo.SaveChanges())
            {
-               var editoraDto = _mapper.Map<EditoraDto>(editora);
-               return Ok(editoraDto);
+               var aluguelDto = _mapper.Map<AluguelDto>(aluguel);
+               return Ok(aluguelDto);
            }
-           return BadRequest("Editora não Adicionada");
+           return BadRequest("Aluguel não Concluido");
         }
 
 

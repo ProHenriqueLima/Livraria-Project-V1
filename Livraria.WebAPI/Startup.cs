@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentValidation.AspNetCore;
 using Livraria.WebAPI.Data;
+using Livraria.WebAPI.Validations;
+using Livraria.WebAPI.Validators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,12 +32,21 @@ namespace Livraria.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            
             services.AddDbContext<LivrariaContext>(
-                context => context.UseSqlite(Configuration.GetConnectionString("default"))
+                context => context.UseMySql(Configuration.GetConnectionString("MySqlConnection"))
             );
             services.AddScoped<IRepository, Repository>();
-            services.AddControllers();
+            services.AddCors(options =>{
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder => builder.WithOrigins("http://localhost:8080",
+                "http://192.168.1.5:8080/"));
+            });
+            services.AddControllers()
+                .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<ClienteValidator>())
+                .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<EditoraValidator>())
+                .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<LivroValidator>());
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Livraria.WebAPI", Version = "v1" });
@@ -48,8 +60,13 @@ namespace Livraria.WebAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseCors(x => x
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Livraria.WebAPI v1"));
+
             }
 
             // app.UseHttpsRedirection();

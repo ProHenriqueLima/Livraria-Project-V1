@@ -43,6 +43,8 @@ namespace Livraria.WebAPI.Controllers
             return Ok(livroDto);
         }
 
+                // Metódos !
+
 
         [HttpPost]
         public IActionResult Post(Livro livro)
