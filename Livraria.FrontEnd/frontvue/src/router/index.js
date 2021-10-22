@@ -2,6 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Editora from '../views/Editora.vue'
+import Cliente from '../views/Cliente.vue'
+import Livro from '../views/Livro.vue'
+import Aluguel from '../views/Aluguel.vue'
 
 Vue.use(VueRouter)
 
@@ -23,7 +26,23 @@ const routes = [
     path: '/Editora',
     name: 'Editora',
     component:Editora 
+  },
+  {
+    path: '/Cliente',
+    name: 'Cliente',
+    component:Cliente 
+  },
+  {
+    path: '/Livro',
+    name: 'Livro',
+    component:Livro 
+  },
+  {
+    path: '/Aluguel',
+    name: 'Aluguel',
+    component:Aluguel 
   }
+
 
 ]
 

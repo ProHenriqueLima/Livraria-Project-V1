@@ -10,13 +10,13 @@
             <a href="/Editora" class="text-decoration-none mr-2"><v-btn depressed class="text-center grey darken-3 white--text">
                 <v-icon>mdi-border-color</v-icon>Editoras
              </v-btn></a>
-             <a href="#" class="text-decoration-none mr-2"><v-btn depressed class="text-center grey darken-3 white--text">
+             <a href="/Livro" class="text-decoration-none mr-2"><v-btn depressed class="text-center grey darken-3 white--text">
                <v-icon>mdi-book</v-icon>Livros
              </v-btn></a>
-            <a href="#" class="text-decoration-none mr-2"> <v-btn depressed class="text-center grey darken-3 white--text">
+            <a href="/Cliente" class="text-decoration-none mr-2"> <v-btn depressed class="text-center grey darken-3 white--text">
               <v-icon>mdi-account</v-icon> Clientes
              </v-btn></a>
-             <a href="#" class="text-decoration-none mr-2"><v-btn depressed class="text-center grey darken-3 white--text">
+             <a href="/Aluguel" class="text-decoration-none mr-2"><v-btn depressed class="text-center grey darken-3 white--text">
               <v-icon>mdi-briefcase</v-icon> Aluguel
              </v-btn></a>
          </div>

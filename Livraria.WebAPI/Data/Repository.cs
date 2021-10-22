@@ -120,5 +120,7 @@ namespace Livraria.WebAPI.Data
             .Where(Aluguel => Aluguel.Id == AluguelID);
             return query.FirstOrDefault();
         }
+
+       
     }
 }
