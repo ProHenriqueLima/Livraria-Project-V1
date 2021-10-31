@@ -6,11 +6,13 @@ export default {
     },
     salvar:(Cliente) =>{
         return http.post('Cliente', Cliente)
+        
     },
     deletar:(Id) =>{
         return http.delete('Cliente/'+Id)
     },
     atualizar:(Cliente) =>{
         return http.put('Cliente/'+Cliente.id, Cliente)
+        
     }
 }

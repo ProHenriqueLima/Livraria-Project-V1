@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Livraria.WebAPI.Migrations
 {
-    public partial class initMysql : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -67,7 +67,10 @@ namespace Livraria.WebAPI.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ClienteId = table.Column<int>(nullable: false),
-                    LivroId = table.Column<int>(nullable: false)
+                    LivroId = table.Column<int>(nullable: false),
+                    Data_Aluguel = table.Column<string>(nullable: true),
+                    Previsao = table.Column<string>(nullable: true),
+                    Entrega = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

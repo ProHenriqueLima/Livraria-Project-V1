@@ -4,7 +4,8 @@ import Home from '../views/Home.vue'
 import Editora from '../views/Editora.vue'
 import Cliente from '../views/Cliente.vue'
 import Livro from '../views/Livro.vue'
-import Aluguel from '../views/Aluguel.vue'
+import Manutencao from '../views/Manutenção.vue'
+import Alugueis from '../views/Aluguel.vue'
 
 Vue.use(VueRouter)
 
@@ -38,9 +39,14 @@ const routes = [
     component:Livro 
   },
   {
-    path: '/Aluguel',
-    name: 'Aluguel',
-    component:Aluguel 
+    path: '/Manutencao',
+    name: 'Manutencao',
+    component:Manutencao 
+  },
+  {
+    path: '/Alugueis',
+    name: 'Alugueis',
+    component:Alugueis 
   }
 
 

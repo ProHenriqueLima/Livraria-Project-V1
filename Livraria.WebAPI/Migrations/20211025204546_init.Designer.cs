@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Livraria.WebAPI.Migrations
 {
     [DbContext(typeof(LivrariaContext))]
-    [Migration("20211015152620_initMysql")]
-    partial class initMysql
+    [Migration("20211025204546_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,8 +27,17 @@ namespace Livraria.WebAPI.Migrations
                     b.Property<int>("ClienteId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Data_Aluguel")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Entrega")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<int>("LivroId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Previsao")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 

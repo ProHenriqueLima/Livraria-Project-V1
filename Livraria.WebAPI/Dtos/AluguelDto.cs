@@ -9,5 +9,8 @@ namespace Livraria.WebAPI.Dtos
         public Cliente Cliente { get; set; }
         public int LivroId { get; set; }
         public Livro Livro { get; set; }
+        public string Data_Aluguel { get; set; }
+        public string Previsao { get; set; }
+        public string Entrega { get; set; }
     }
 }

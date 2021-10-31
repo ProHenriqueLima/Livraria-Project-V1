@@ -25,8 +25,17 @@ namespace Livraria.WebAPI.Migrations
                     b.Property<int>("ClienteId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Data_Aluguel")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Entrega")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<int>("LivroId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Previsao")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 

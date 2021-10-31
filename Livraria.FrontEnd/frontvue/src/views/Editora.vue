@@ -1,42 +1,42 @@
 <template>
-<v-app class="indigo lighten-5">
+<v-app class="grey darken-4">
   <nav-bar/>
-  <v-simple-table class="py-4 mx-4">
-    <template v-slot:default>
-      <thead >
-        <tr class="blue-grey darken-4">
-          <th class="text-center white--text">
-            Id
-          </th>
-          <th class="text-center white--text">
-            Nome da Editora
-          </th>
-          <th class="text-center white--text">
-            Cidade da Editora
-          </th>
-          <th class="text-center white--text">
-            Ações
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="Editora of Editoras"
-          :key="Editora.Id"
-          :items-per-page="5"
-        >
-          <td class="text-center">{{ Editora.id }}</td>
-          <td class="text-center">{{ Editora.nameEditora }}</td>
-          <td class="text-center">{{ Editora.cidadeEditora }}</td>
-          <td class="text-center"><v-btn class="red mr-2 rounded-card" @click="excluir(Editora.id)"><v-icon size=20>mdi-archive-remove-outline</v-icon></v-btn>
-          <v-btn class="yellow rounded-card" @click="editar(Editora)"><v-icon size=20>mdi-lead-pencil</v-icon></v-btn></td>
-        </tr>
-      </tbody>
+  
+ <v-card class="mx-3 mt-4">
+    <v-card-title>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
+    <v-data-table
+      :headers="headers"
+      :items="Editoras"
+      :search="search"
+    >
+    <template v-slot:[`item.actions`]="{ item }">
+      <v-icon
+        small
+        class="mr-2"
+        @click="editar(item)"
+      >
+        mdi-pencil
+      </v-icon>
+      <v-icon
+        small
+        @click="excluir(item.id)"
+      >
+        mdi-delete
+      </v-icon>
     </template>
-  </v-simple-table>
+    </v-data-table>
+  </v-card>
           <div class="my-2" >
             <v-btn
-              color="primary"
+              color="purple"
               dark
               fab fixed bottom right @click="ModalAdicionar"
             >
@@ -116,6 +116,8 @@
 <script>
 import NavBar from "../components/NavBar.vue"
 import Editora from "../services/Editoras"
+import Swal from "sweetalert2/dist/sweetalert2.js";
+
 export default ({
   name: 'Editora',
   components: {
@@ -127,6 +129,19 @@ export default ({
         nameEditora: '',
         cidadeEditora: ''
       },
+      headers: [
+          {
+            text: 'Id',
+            align: 'start',
+            filterable: false,
+            value: 'id',
+          },
+          { text: 'Nome da Editora', value: 'nameEditora' },
+          { text: 'Cidade da Editora', value: 'cidadeEditora' },
+          { text: 'Actions', value: 'actions'},
+
+        ],
+        search: '',
       Editoras:[],
       adicionar : false,
       alertcadastro : false,
@@ -151,6 +166,12 @@ export default ({
       },
         methods:{
               listar(){
+                Swal.fire({
+            title: "Seja bem-vindo ",
+            text: "Página das editoras , sinta-se a vontade !",
+            icon: "info",
+            confirmButtonText: "Ok",
+          })
                    Editora.listar().then(resposta =>{
                    this.Editoras = resposta.data
                     })
@@ -180,6 +201,7 @@ export default ({
                 
               },
               excluir(id){
+                
                   Editora.deletar(id).then(resposta =>{
                     this.Editora = resposta,
                     this.listar()
