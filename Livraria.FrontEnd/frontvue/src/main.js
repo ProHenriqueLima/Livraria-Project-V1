@@ -5,10 +5,12 @@ import router from './router'
 import vuetify from './plugins/vuetify'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import "sweetalert2/dist/sweetalert2.min.css"
-import VueChartkick from '../node_modules/vue-chartkick'
-import 'chartkick/chart.js'
+import VueApexCharts from 'vue-apexcharts'
+Vue.use(VueApexCharts)
 
-Vue.use(VueChartkick)
+Vue.component('apexchart', VueApexCharts)
+
+
 Vue.config.productionTip = false
 
 new Vue({

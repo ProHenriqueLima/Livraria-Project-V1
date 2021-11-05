@@ -1,7 +1,72 @@
 <template>
   <v-app class="grey darken-4">
     <nav-bar />
-    <v-card class="mx-3 mt-4">
+    <v-card
+      class=" my-12 purple darken-3 text-center mx-auto"
+      width="1050"
+      height="50"
+    >
+      <h1 class="white--text mt-1 font-weight-black">
+        Ultimo Aluguel Feito
+      </h1>
+    </v-card>
+    <v-row class="mx-auto mb-5">
+      <v-card
+        class=" mt-5 purple darken-3 text-center mr-4"
+        width="350"
+        height="150"
+      >
+        <div>
+          <v-card-title class=" white--text text-center"
+            ><h3>Cliente</h3>
+          </v-card-title>
+        </div>
+        <div>
+          <h1 class=" text-center white--text ">
+            <b>{{ ultimoAluguel.cliente.nomeCliente }}</b>
+          </h1>
+        </div>
+      </v-card>
+
+      <v-card
+        class=" my-5 purple darken-3 text-center"
+        width="350"
+        height="150"
+      >
+        <div>
+          <v-card-title class=" white--text text-center mx-4"
+            ><h3>Livro</h3>
+          </v-card-title>
+        </div>
+        <div>
+          <h1 class=" text-center white--text ">
+            <b>{{ ultimoAluguel.livro.nomeLivro }}</b>
+          </h1>
+        </div>
+      </v-card>
+
+      <v-card
+        class=" my-5 purple darken-3 text-center ml-4"
+        width="350"
+        height="150"
+      >
+        <div>
+          <v-card-title class=" white--text text-center mx-4"
+            ><h3>Data do Aluguel</h3>
+          </v-card-title>
+        </div>
+        <div>
+          <h1 class=" text-center white--text ">
+            <b>{{ ultimoAluguel.data_Aluguel }}</b>
+          </h1>
+        </div>
+      </v-card>
+    </v-row>
+
+    <v-card class=" mt-12 purple darken-3 text-center mx-auto" width="1301" height="50">
+      <h1 class="white--text mt-1 font-weight-black">Tabela de Clientes</h1>
+    </v-card>
+    <v-card class="mx-6 mb-8">
       <v-card-title>
         <v-text-field
           v-model="search"
@@ -33,7 +98,7 @@
             >
           </div>
           <div v-else>
-            <v-btn title="Excluir aluguel" class="purple rounded-card" @click="excluir(item.id)"
+            <v-btn title="Aluguel Devolvido" class="purple rounded-card" 
               ><v-icon size="20">mdi-book</v-icon
             ></v-btn>
           </div>
@@ -43,7 +108,7 @@
 
     <div class="my-2">
       <v-btn
-        color="purple"
+        color="purple darken-3"
         dark
         fab
         fixed
@@ -57,7 +122,7 @@
       </v-btn>
     </div>
     <v-dialog v-model="adicionar" width="unset" height="unset">
-      <v-card width="490" height="350" class="text-center rounded-card">
+      <v-card width="490" height="400" class="text-center rounded-card">
         <v-toolbar class="grey darken-3">
           <span class="dark ml-2 mr-1"><b>Cadastrar </b></span>
           <span class="white--text">Aluguel</span>
@@ -67,12 +132,14 @@
           </v-btn>
         </v-toolbar>
 
-        <form @submit.prevent="salvar" class="py-4">
+        <form @submit.prevent="salvar()" ref="form"
+          lazy-validation class="py-4">
           <v-select
             v-model="Aluguel.livroId"
             :items="Livros"
             item-text="nomeLivro"
             item-value="id"
+            :rules="livroRules"
             filled
             label="Livro"
           ></v-select>
@@ -82,6 +149,7 @@
             :items="Clientes"
             item-text="nomeCliente"
             item-value="id"
+            :rules="clienteRules"
             filled
             label="Cliente"
           ></v-select>
@@ -117,7 +185,7 @@
             </v-menu>
           </div>
 
-          <button type="submit" class="green darken-3 rounded-card ml-2 ">
+          <button @click="validate()" class="green darken-3 rounded-card ml-2 ">
             <v-icon size="30" color="white" class="paS-2 ml-2"
               >mdi-book-plus-outline</v-icon
             ><span class="mr-3 text-center green darken-3 white--text">
@@ -256,6 +324,7 @@ export default {
         { text: "Status", value: "status" },
         { text: "Actions", value: "actions" },
       ],
+      ultimoAluguel:[],
       activePicker: null,
       date: null,
       menu: false,
@@ -270,12 +339,12 @@ export default {
       snackbar2: false,
       snackbar3: false,
       clienteRules: [
-        (v) => !!v || "O Cliente ID é obrigatório e tem que ser válido !",
-        (v) => !isNaN(v) || " O Cliente ID pode conter apenas números !",
+        (v) => !!v || "O Cliente é obrigatório !",
+
       ],
       livroRules: [
-        (v) => !!v || "O Livro ID é obrigatório e tem que ser válido !",
-        (v) => !isNaN(v) || " O Livro ID pode conter apenas números !",
+        (v) => !!v || "O Livro  é obrigatório !",
+
       ],
     };
   },
@@ -285,15 +354,21 @@ export default {
     },
   },
   mounted() {
-    this.alert(),this.listar(), this.listarLivros(), this.listarClientes(); 
+    this.listar(), this.listarLivros(), this.listarClientes(); 
   },
   methods: {
     listar() {
       
       Alugueis.listar().then((resposta) => {
-        (this.Alugueis = resposta.data), console.log(this.Alugueis);
+        (this.Alugueis = resposta.data);
+        this.ultimoAluguel=this.Alugueis[this.Alugueis.length - 1];
       });
     },
+
+    validate () {
+        this.$refs.form.validate()
+      },
+      
     listarLivros() {
       Livro.listar().then((resposta) => {
         this.Livros = resposta.data;
@@ -346,14 +421,7 @@ export default {
               confirmButtonText: "Ok",
             });
         })
-        .catch(
-          Swal.fire({
-            title: "Algo não está certo ..",
-            text: "Verifique se todos os campos estão preenchidos !",
-            icon: "error",
-            confirmButtonText: "Ok",
-          })
-        );
+        
     },
     editar(Aluguel) {
       this.Aluguel = Aluguel;
@@ -384,17 +452,10 @@ export default {
     },
     excluir(id) {
       Alugueis.deletar(id).then((resposta) => {
-        (this.Aluguel = resposta), this.listar(), (this.snackbar1 = true);
+        (this.Aluguel = resposta), this.listar();
       });
     },
-    alert(){
-      Swal.fire({
-            title: "Seja bem-vindo ",
-            text: "Página dos Alugueis , sinta-se a vontade !",
     
-            confirmButtonText: "Ok",
-          })
-    }
   },
 };
 </script>

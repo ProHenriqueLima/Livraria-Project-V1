@@ -4,6 +4,9 @@ export default {
     listar:() =>{
         return http.get('Editora')
     },
+    listar2:(Id) =>{
+        return http.get('Livro/Editora/'+Id)
+    },
     salvar:(Editora) =>{
         return http.post('Editora', Editora)
     },

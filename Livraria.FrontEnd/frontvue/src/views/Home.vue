@@ -1,15 +1,8 @@
 <template>
-  <v-app class="grey darken-4">
+  <v-app class="grey darken-3">
     <nav-bar />
  
-    <v-carousel v-model="model" class="grey lighten-1">
-      <v-carousel-item>
-        <v-sheet height="100%" tile class="grey lighten-1">
-          <v-row class="fill-height" align="center" justify="center">
-            <v-img class="py-1 ml-4" src="../assets/inicio02.png"></v-img>
-          </v-row>
-        </v-sheet>
-      </v-carousel-item>
+    <!-- <v-carousel v-model="model" class="grey lighten-1">
       <v-carousel-item>
         <v-sheet height="100%" tile class="grey lighten-1">
           <v-row class="fill-height" align="center" justify="center">
@@ -17,21 +10,28 @@
           </v-row>
         </v-sheet>
       </v-carousel-item>
-    </v-carousel>
-    <hr class="my-3">
-    <ul class="absolute">
-      <row>
+    </v-carousel> -->
+ 
+      <v-card
+      class=" mt-6 mv-2 grey darken-4 text-center mx-auto"
+      width="1080"
+      height="50"
+    >
+      <h1 class="white--text mt-1 mb-1 grey darken-4 ">
+        Ultimo Aluguel Feito 
+      </h1>
+    </v-card>
+      <v-row class="mx-auto">
         <v-card
           :loading="loading"
-          class="mx-auto my-12 deep-purple accent-3 text-center"
-          width="280"
+          class=" my-5 ml-4 mr-4 deep-purple darken-3 text-center"
+          width="350"
           height="150"
         >
           <div>
             <v-card-title class="ml-3 white--text text-center"
               ><h3>
-                Número de Alugueis <br />
-                Feitos
+                Número de Alugueis Feitos
               </h3>
             </v-card-title>
           </div>
@@ -41,15 +41,34 @@
             </h1>
           </div>
         </v-card>
+
         <v-card
           :loading="loading"
-          class="mx-auto my-12 deep-purple accent-3 text-center"
-          width="280"
+          class=" my-5 deep-purple darken-3 text-center"
+          width="350"
           height="150"
         >
           <div>
-            <v-card-title class="ml-3 white--text text-center"
-              ><h3>Último Livro Alugado</h3>
+            <v-card-title class=" white--text text-center mx-4"
+              ><h3>Último Cliente Que Alugou</h3>
+            </v-card-title>
+          </div>
+          <div>
+            <h1 class=" text-center white--text ">
+              <b>{{ this.Alugueis[Alugueis.length - 1].cliente.nomeCliente }}</b>
+            </h1>
+          </div>
+        </v-card>
+
+        <v-card
+          :loading="loading"
+          class=" my-5 mx-4 deep-purple darken-3 text-center"
+          width="350"
+          height="150"
+        >
+          <div>
+            <v-card-title class=" white--text text-center mx-4"
+              ><h3>O Último Livro Alugado</h3>
             </v-card-title>
           </div>
           <div>
@@ -58,17 +77,10 @@
             </h1>
           </div>
         </v-card>
-      </row>
-    </ul>
+      </v-row>
+  
     <hr>
-    <v-card
-          :loading="loading"
-          class="mx-3  grey darken-4 accent-3 text-center"
-          width=100%
-          height=250
-        >
-        <pie-chart :data="[['Blueberry', 44], ['Strawberry', 23]]"></pie-chart>
-        </v-card>
+    <graficos /> 
 
     
   </v-app>
@@ -78,11 +90,11 @@
 import NavBar from "../components/NavBar.vue";
 import Alugueis from "../services/Alugueis.js";
 import Livro from "../services/Livros";
-
+import Graficos from "../components/Graficos"
 export default {
   name: "Home",
   components: {
-    NavBar,
+    NavBar,Graficos
   },
   data() {
     return {

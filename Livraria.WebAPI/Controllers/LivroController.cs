@@ -43,6 +43,14 @@ namespace Livraria.WebAPI.Controllers
             return Ok(livroDto);
         }
 
+        [HttpGet("Editora/{EditoraID}")]
+        public IActionResult GetByID(int EditoraID)
+        {
+            var livro = _repo.GetAllLivroByEditoraId(EditoraID,includeEditora:true);
+            if (livro == null) return BadRequest("Livro não encontrado");
+
+            return Ok(_mapper.Map<IEnumerable<LivroDto>>(livro));
+        }
                 // Metódos !
 
 

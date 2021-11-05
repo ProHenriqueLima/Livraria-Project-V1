@@ -1,7 +1,58 @@
 <template>
   <v-app class="grey darken-4">
     <nav-bar />
-    <v-card class="mx-3 mt-4">
+<v-card
+      class=" my-12 purple darken-3 text-center mx-auto"
+     width="1050"
+      height="50"
+    >
+      <h1 class="white--text mt-1 font-weight-black">
+        Ultimo Livro Cadastrado
+      </h1>
+    </v-card>
+    <v-row class="mx-auto mb-5">
+      <v-card
+        class=" mt-5 purple darken-3
+ text-center mr-4"
+        width="350"
+        height="150"
+      >
+        <div>
+          <v-card-title class=" white--text text-center"
+            ><h3>Nome</h3>
+          </v-card-title>
+        </div>
+        <div>
+          <h1 class=" text-center white--text ">
+            <b>{{ ultimoLivro.nomeLivro }}</b>
+          </h1>
+        </div>
+      </v-card>
+
+      <v-card
+        class=" my-5 purple darken-3
+ text-center"
+        width="350"
+        height="150"
+      >
+        <div>
+          <v-card-title class=" white--text text-center mx-4"
+            ><h3>Autor</h3>
+          </v-card-title>
+        </div>
+        <div>
+          <h1 class=" text-center white--text ">
+            <b>{{ ultimoLivro.autorLivro }}</b>
+          </h1>
+        </div>
+      </v-card>
+    </v-row>
+
+    <v-card class=" mt-12  purple darken-3
+ text-center mx-auto" width="1301" height="50">
+      <h1 class="white--text mt-1 font-weight-black">Tabela de Livros</h1>
+    </v-card>
+    <v-card class="mx-6 mb-8 ">
       <v-card-title>
         <v-text-field
           v-model="search"
@@ -13,10 +64,10 @@
       </v-card-title>
       <v-data-table :headers="headers" :items="Livros" :search="search">
         <template v-slot:[`item.actions`]="{ item }">
-          <v-icon small class="mr-2" @click="editar(item)">
+          <v-icon small class="mr-2 green--text" @click="editar(item)">
             mdi-pencil
           </v-icon>
-          <v-icon small @click="excluir(item.id)">
+          <v-icon small class="red--text" @click="excluir(item.id)">
             mdi-delete
           </v-icon>
         </template>
@@ -24,7 +75,7 @@
     </v-card>
     <div class="my-2">
       <v-btn
-        color="primary"
+        color="purple darken-3"
         dark
         fab
         fixed
@@ -57,12 +108,36 @@
             :counter="30"
           ></v-text-field>
 
-          <v-btn
-            class="grey darken-3 white--text rounded-card "
-            @click="modalCalendario()"
-            :rules="lancamentoRules"
-            >Lançamento</v-btn
-          >
+          <div>
+            <v-menu
+              ref="menu"
+              v-model="menu"
+              :close-on-content-click="false"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="date"
+                  label="Lançamento"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                v-model="date"
+                :max="
+                  new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+                    .toISOString()
+                    .substr(0, 10)
+                "
+                @change="save"
+              ></v-date-picker>
+            </v-menu>
+          </div>
 
           <v-text-field
             label="Autor"
@@ -174,6 +249,7 @@ import NavBar from "../components/NavBar.vue";
 import Livro from "../services/Livros";
 import Editora from "../services/Editoras";
 import Swal from "sweetalert2/dist/sweetalert2.js";
+var moment = require("moment");
 export default {
   name: "Livro",
   components: {
@@ -203,7 +279,11 @@ export default {
         { text: "Nome da Editora", value: "editora.nameEditora" },
         { text: "Actions", value: "actions" },
       ],
-
+      activePicker: null,
+      date: null,
+      menu: false,
+      numeroaluguel:"",
+      ultimoLivro:[],
       Livros: [],
       Editoras: [],
       adicionar: false,
@@ -249,23 +329,19 @@ export default {
     };
   },
   mounted() {
-    this.listar(), this.listarEditora();
+  this.listar(), this.listarEditora();
   },
   methods: {
     modalCalendario() {
       this.tabeladata = true;
     },
     listar() {
-      Swal.fire({
-            title: "Seja bem-vindo ",
-            text: "Página dos Livros , sinta-se a vontade !",
-            icon: "info",
-            confirmButtonText: "Ok",
-          })
       Livro.listar().then((resposta) => {
         this.Livros = resposta.data;
+         this.ultimoLivro=this.Livros[this.Livros.length - 1];
       });
     },
+  
     listarEditora() {
       Editora.listar().then((resposta) => {
         this.Editoras = resposta.data;
@@ -281,23 +357,73 @@ export default {
       this.adicionar = true;
     },
     salvar() {
+      var save ={
+        nomeLivro : this.Livro.nomeLivro,
+        lancamentoLivro : moment(this.date).format("YYYY/MM/DD"),
+        autorLivro : this.Livro.autorLivro,
+        quantidade : this.Livro.quantidade,
+        editoraID : this.Livro.editoraID,
+      }
+      
       if (this.Livro.id == null) {
-        Livro.salvar(this.Livro).then((resposta) => {
+        Livro.salvar(save).then((resposta) => {
           (this.Livro = resposta),
             this.listar(),
             (this.adicionar = false),
-            (this.snackbar2 = true);
+            Swal.fire({
+              title: " Sucesso",
+              text: "Livro , Adicionado com Sucesso !",
+              icon: "success",
+              confirmButtonText: "Ok",
+            });
         });
       } else {
         Livro.atualizar(this.Livro).then((resposta) => {
           (this.Livro = resposta), this.listar(), (this.adicionar = false);
-          this.snackbar3 = true;
+          Swal.fire({
+              title: "Sucesso ",
+              text: "Livro atualizado com sucesso",
+              icon: "success",
+              confirmButtonText: "Ok",
+            });
         });
       }
     },
     excluir(id) {
-      Livro.deletar(id).then((resposta) => {
-        (this.Livro = resposta), this.listar(), (this.snackbar1 = true);
+      Swal.fire({
+        title: "Você quer mesmo deletar ?",
+        text: "Você não irá poder reverter isso !",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sim, Delete!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Livro.verificar(id).then((resposta) => {
+            this.Livros = resposta.data;
+            this.numeroaluguel = this.Livros.length
+          if(this.Livros == 0){
+            Livro.deletar(id).then((resposta) => {
+            (this.Livros = resposta)
+          });
+          Swal.fire(
+            "Deletado!",
+            "o Livro foi deletado com sucesso.",
+            "success"
+          );
+           this.listar();
+            }
+          else{
+            Swal.fire(
+            "Não Deletado!",
+            "O Livro Possui "+this.numeroaluguel+" Alugueis.",
+            "error"
+          );
+          this.listar();
+          }
+          });
+        }
       });
     },
     editar(Livro) {

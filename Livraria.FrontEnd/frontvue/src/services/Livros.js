@@ -4,6 +4,9 @@ export default {
     listar:() =>{
         return http.get('Livro')
     },
+    verificar:(id)=>{
+        return http.get('Aluguel/Livro/'+id)
+    },
     listar2:() =>{
         return http.get('Editora')
     },

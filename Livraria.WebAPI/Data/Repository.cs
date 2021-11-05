@@ -90,6 +90,21 @@ namespace Livraria.WebAPI.Data
             return query.FirstOrDefault();
         }
 
+
+        public Aluguel GetAluguelById(int AluguelID, bool includeLivro, bool includeCliente)
+        {
+            IQueryable<Aluguel> query = this.context.Alugueis;
+            if(includeLivro){
+               query = query.Include(l => l.Livro);
+           }
+           if(includeCliente){
+               query = query.Include(c => c.Cliente);
+           }
+            query = query.AsNoTracking()
+            .OrderBy(Aluguel => Aluguel.Id)
+            .Where(Aluguel => Aluguel.Id == AluguelID);
+            return query.FirstOrDefault();
+        }
         public Aluguel[] GetAllAluguel(bool includeLivro , bool includeCliente)
         {
             IQueryable<Aluguel> query = this.context.Alugueis;
@@ -106,21 +121,34 @@ namespace Livraria.WebAPI.Data
             return query.ToArray();
         }
 
-        public Aluguel GetAluguelById(int AluguelID, bool includeLivro, bool includeCliente)
+        public Livro[] GetAllLivroByEditoraId(int EditoraID, bool includeEditora)
         {
-            IQueryable<Aluguel> query = this.context.Alugueis;
-            if(includeLivro){
-               query = query.Include(l => l.Livro);
-           }
-           if(includeCliente){
-               query = query.Include(c => c.Cliente);
+            IQueryable<Livro> query = this.context.Livros;
+            if(includeEditora){
+               query = query.Include(e => e.Editora);
            }
             query = query.AsNoTracking()
-            .OrderBy(Aluguel => Aluguel.Id)
-            .Where(Aluguel => Aluguel.Id == AluguelID);
-            return query.FirstOrDefault();
+            .OrderBy(livro => livro.EditoraID)
+            .Where(livro => livro.EditoraID == EditoraID);
+            return query.ToArray();
+            }
+
+        public Aluguel[] GetAllAluguelByLivroId(int LivroID)
+        {
+            IQueryable<Aluguel> query = this.context.Alugueis;
+            query = query.AsNoTracking()
+            .OrderBy(aluguel => aluguel.LivroId)
+            .Where(aluguel => aluguel.LivroId == LivroID);
+            return query.ToArray();
         }
 
-       
+        public Aluguel[] GetAllAluguelByClienteId(int ClienteID)
+        {
+            IQueryable<Aluguel> query = this.context.Alugueis;
+            query = query.AsNoTracking()
+            .OrderBy(aluguel => aluguel.ClienteId)
+            .Where(aluguel => aluguel.ClienteId == ClienteID);
+            return query.ToArray();
+        }
     }
-}
+    }

@@ -28,6 +28,23 @@ namespace Livraria.WebAPI.Controllers
             var alugueis = _repo.GetAllAluguel(includeLivro:true, includeCliente:true);
             return Ok(_mapper.Map<IEnumerable<AluguelDto>>(alugueis));
         }
+        [HttpGet("Livro/{LivroId}")]
+        public IActionResult GetByID(int LivroId)
+        {
+            var aluguel = _repo.GetAllAluguelByLivroId(LivroId);
+            if (aluguel == null) return BadRequest("Livro não encontrado");
+
+            return Ok(_mapper.Map<IEnumerable<AluguelDto>>(aluguel));
+        }
+
+        [HttpGet("Cliente/{ClienteId}")]
+        public IActionResult GetByID2(int ClienteId)
+        {
+            var aluguel = _repo.GetAllAluguelByClienteId(ClienteId);
+            if (aluguel == null) return BadRequest("Cliente não encontrado");
+
+            return Ok(_mapper.Map<IEnumerable<AluguelDto>>(aluguel));
+        }
 
 
         [HttpPost]
