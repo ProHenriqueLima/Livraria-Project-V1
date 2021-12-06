@@ -10,6 +10,12 @@ export default {
     listar2:() =>{
         return http.get('Editora')
     },
+    listar3:(id) =>{
+        return http.get('Livro/'+id)
+    },
+    listar4:() =>{
+        return http.get('Livro/LivroAluguel')
+    },
     salvar:(Livro) =>{
         return http.post('Livro', Livro)
     },

@@ -1,61 +1,106 @@
 <template>
-  <v-app class="grey darken-4">
-    <nav-bar />
-    <v-card
-      class=" my-12 purple darken-3 text-center mx-auto"
-      width="1050"
-      height="50"
-    >
-      <h1 class="white--text mt-1 font-weight-black">
-        Ultima Editora Cadastrada
-      </h1>
-    </v-card>
-    <v-row class="mx-auto mb-5">
-      <v-card
-        class=" mt-5 purple darken-3 text-center mr-4"
-        width="350"
-        height="150"
-      >
-        <div>
-          <v-card-title class=" white--text text-center"
-            ><h3>Nome</h3>
-          </v-card-title>
-        </div>
-        <div>
-          <h1 class=" text-center white--text ">
-            <b>{{ ultimaEditora.nameEditora }}</b>
-          </h1>
-        </div>
-      </v-card>
+  <v-app class="white">
+       <v-card
+    color=""
+    flat
+ 
+    tile
+  >
+    <v-toolbar dense height=60%  class=" white">
+      <v-app-bar-nav-icon @click="drawer = true"  class="black--text"></v-app-bar-nav-icon>
+      <v-spacer></v-spacer>
+      <v-toolbar-title class=" blue--text"><h3><b>Wda</b></h3></v-toolbar-title>
+      <v-toolbar-title class="black--text"><b>Livraria</b></v-toolbar-title>
+      <v-spacer></v-spacer>
 
-      <v-card
-        class=" my-5 purple darken-3 text-center"
-        width="350"
-        height="150"
-      >
-        <div>
-          <v-card-title class=" white--text text-center mx-4"
-            ><h3>Cidade</h3>
-          </v-card-title>
-        </div>
-        <div>
-          <h1 class=" text-center white--text ">
-            <b>{{ ultimaEditora.cidadeEditora }}</b>
-          </h1>
-        </div>
-      </v-card>
-    </v-row>
 
-    <v-card
-      class=" mt-12 purple darken-3 text-center mx-auto"
-      width="1301"
-      height="50"
+      
+
+
+      
+      
+    </v-toolbar>
+  </v-card>
+    
+    <v-navigation-drawer
+      v-model="drawer"
+      class="white"
+      absolute
+      temporary
     >
+      <v-list
+        nav
+        dense
+      >
+        <v-list-item-group
+          v-model="group"
+          active-class="blue--text text--accent-4"
+        >
+          <row >
+          <h1 class="black--text mt-1 ml-2 mb-4 font-weight-black"><b class="blue--text font-weight-black mr-1">Wda</b>Livraria</h1>
+          </row>
+          <v-list-item class="mb-3" href="/">
+            <v-list-item-icon>
+              <v-icon class="blue--text">mdi-chart-line</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title class="black--text">DashBoard</v-list-item-title>
+          </v-list-item>
+            
+
+            <hr class="blue--text">
+          <v-list-item class="mb-3 " href="/Cliente" >
+            <v-list-item-icon>
+              <v-icon class="blue--text">mdi-account</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title class="black--text">Cliente</v-list-item-title>
+          </v-list-item>
+            <hr class="blue--text">
+
+          <v-list-item class="mb-3 grey lighten-2" href="/Editora">
+            <v-list-item-icon>
+              <v-icon class="blue--text">mdi-book-multiple</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title class="black--text" >Editora</v-list-item-title>
+          </v-list-item>
+            <hr class="blue--text">
+
+          <v-list-item class="mb-3" href="/Livro">
+            <v-list-item-icon>
+              <v-icon class="blue--text">mdi-book</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title class="black--text" >Livros</v-list-item-title>
+          </v-list-item>
+            <hr class="blue--text">
+
+          <v-list-item href="/Alugueis" >
+            <v-list-item-icon>
+              <v-icon class="blue--text">mdi-cash</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title class="black--text">Alugueis</v-list-item-title>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer>
+    <hr>
+    
+    <v-card class=" mt-6 blue darken-3 text-center mx-12" height="50">
       <h1 class="white--text mt-1 font-weight-black">Tabela de Editoras</h1>
     </v-card>
-    <v-card class="mx-6 mb-8 ">
-      <v-card-title>
+    <v-card class="mx-12 mb-8">
+      <v-card-title class="grey lighten-2" >
+        <v-btn
+    @click="ModalAdicionar"
+    class="ml-12  mt-4 "
+    width=auto
+    height="30"
+      depressed
+      color="primary"
+    >
+      Adicionar Uma Nova Editora
+    </v-btn>
+        
         <v-text-field
+          class="grey lighten-2 ml-12"
           v-model="search"
           append-icon="mdi-magnify"
           label="Search"
@@ -63,7 +108,7 @@
           hide-details
         ></v-text-field>
       </v-card-title>
-      <v-data-table :headers="headers" :items="Editoras" :search="search">
+      <v-data-table class="grey lighten-2" :items-per-page="5" :headers="headers" :items="Editoras" :search="search">
         <template v-slot:[`item.actions`]="{ item }">
           <v-icon small class="mr-2 green--text" @click="editar(item)">
             mdi-pencil
@@ -74,31 +119,18 @@
         </template>
       </v-data-table>
     </v-card>
-    <div class="my-2">
-      <v-btn
-        color="purple darken-3"
-        dark
-        fab
-        fixed
-        bottom
-        right
-        @click="ModalAdicionar"
-      >
-        <v-icon dark>
-          mdi-plus
-        </v-icon>
-      </v-btn>
-    </div>
-    <v-dialog v-model="adicionar" width="unset" height="unset">
-      <v-card width="450" height="350" class="text-center">
-        <v-toolbar class="grey darken-3">
-          <span class="dark ml-2 mr-1"><b>Cadastrar </b></span>
-          <span class="white--text">Editora</span>
+  
+   <v-dialog v-model="adicionar" width="unset" height="unset">
+      <v-card width="490" height="380" class="text-center rounded-card">
+        <v-toolbar class="white">
+          <span class="blue--text ml-2 mr-1"><b>Cadastrar </b></span>
+          <span class="black--text">Cliente</span>
           <v-spacer></v-spacer>
-          <v-btn size="40" class="grey darken-3" @click="fecharmodel">
+          <v-btn size="40" class="white" @click="fecharmodel">
             <v-icon size="30" color="red">mdi-close</v-icon>
           </v-btn>
         </v-toolbar>
+
         <v-form
           @submit.prevent="salvar"
           ref="form"
@@ -106,6 +138,7 @@
           class="py-4"
         >
           <v-text-field
+          prepend-icon="mdi-book-multiple"
             label="Nome da Editora"
             v-model="Editora.nameEditora"
             class="py-4 mx-2"
@@ -113,16 +146,20 @@
             :counter="30"
           ></v-text-field>
           <v-text-field
+          prepend-icon="mdi-city"
+
             label="Cidade"
             v-model="Editora.cidadeEditora"
             class="py-4 mx-2"
             :rules="cidadeRules"
             :counter="30"
           ></v-text-field>
-          <button @click="validate()" class="green darken-3 rounded-card">
-            <v-icon size="30" color="white" class="pa-2 "
-              >mdi-book-plus-outline</v-icon
+          
+          <button @click="validate()" class="ml-3">
+           <span class="mx-5 mt-2 text-center green--text">
+              <b><h3>Salvar</h3></b></span
             >
+            
           </button>
         </v-form>
       </v-card>
@@ -158,32 +195,30 @@
   </v-app>
 </template>
 <script>
-import NavBar from "../components/NavBar.vue";
+
 import Editora from "../services/Editoras";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
 export default {
   name: "Editora",
   components: {
-    NavBar,
+ 
   },
   data() {
     return {
       Editora: {
+        id:"",
         nameEditora: "",
         cidadeEditora: "",
       },
       headers: [
-        {
-          text: "Id",
-          align: "start",
-          filterable: false,
-          value: "id",
-        },
+        { text: "Cod.", value: "id" },
         { text: "Nome da Editora", value: "nameEditora" },
         { text: "Cidade da Editora", value: "cidadeEditora" },
         { text: "Actions", value: "actions" },
       ],
+      drawer: false,
+      group: null,
       search: "",
       ultimaEditora: [],
       Editoras: [],
@@ -224,11 +259,12 @@ export default {
       this.adicionar = false;
     },
     ModalAdicionar() {
+      this.limparCampos(),
       this.adicionar = true;
     },
-    validate() {
-      this.$refs.form.validate();
-    },
+    validate () {
+        this.$refs.form.validate()
+      },
     salvar() {
       if (this.Editora.id == null) {
         Editora.salvar(this.Editora).then((resposta) => {
@@ -251,6 +287,12 @@ export default {
             });
         });
       }
+    },
+    limparCampos(){
+        this.Editora = {nameEditora: "",
+        cidadeEditora: ""};
+    
+
     },
     excluir(id) {
       Swal.fire({
@@ -282,8 +324,9 @@ export default {
             "A Editora Possui "+this.numeroaluguel+" livros.",
             "error"
           );
-          this.listar();
+          
           }
+          this.listar();
           });
         }
       });

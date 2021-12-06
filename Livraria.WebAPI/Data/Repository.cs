@@ -150,5 +150,28 @@ namespace Livraria.WebAPI.Data
             .Where(aluguel => aluguel.ClienteId == ClienteID);
             return query.ToArray();
         }
+
+        public Livro[] GetAllLivroQuatidade(bool includeEditora)
+        {
+            IQueryable<Livro> query = this.context.Livros;
+
+           if(includeEditora){
+               query = query.Include(e => e.Editora);
+           }
+
+            query = query.AsNoTracking().OrderBy(livro => livro.Id)
+            .Where(livro => livro.Quantidade >= 0);
+
+            return query.ToArray();
+        }
+
+        public Cliente[] GetAllClienteByName(string EmailCliente)
+        {
+            IQueryable<Cliente> query = this.context.Clientes;
+            query = query.AsNoTracking()
+            .OrderBy(cliente => cliente.Id)
+            .Where(cliente => cliente.EmailCliente == EmailCliente);
+            return query.ToArray();
+        }
     }
     }

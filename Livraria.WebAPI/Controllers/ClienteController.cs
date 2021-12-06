@@ -35,6 +35,14 @@ namespace Livraria.WebAPI.Controllers
             if (cliente == null) return BadRequest("Cliente não encontrado");
             return Ok(cliente);
         }
+
+        [HttpGet("email/{EmailCliente}")]
+        public IActionResult GetByEmail(string EmailCliente)
+        {
+            var cliente = _repo.GetAllClienteByName(EmailCliente);
+            if (cliente == null) return BadRequest("Email Já Cadastrado");
+            return Ok(cliente);
+        }
         [HttpPost]
         public IActionResult Post(Cliente cliente)
         {

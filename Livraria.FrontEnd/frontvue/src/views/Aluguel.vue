@@ -1,74 +1,106 @@
 <template>
-  <v-app class="grey darken-4">
-    <nav-bar />
+  <v-app class="white">
     <v-card
-      class=" my-12 purple darken-3 text-center mx-auto"
-      width="1050"
-      height="50"
+    color=""
+    flat
+ 
+    tile
+  >
+    <v-toolbar dense height=60%  class=" white">
+      <v-app-bar-nav-icon @click="drawer = true"  class="black--text"></v-app-bar-nav-icon>
+      <v-spacer></v-spacer>
+      <v-toolbar-title class=" blue--text"><h3><b>Wda</b></h3></v-toolbar-title>
+      <v-toolbar-title class="black--text"><b>Livraria</b></v-toolbar-title>
+      <v-spacer></v-spacer>
+
+
+      
+
+
+      
+      
+    </v-toolbar>
+  </v-card>
+    
+    <v-navigation-drawer
+      v-model="drawer"
+      class="white"
+      absolute
+      temporary
     >
-      <h1 class="white--text mt-1 font-weight-black">
-        Ultimo Aluguel Feito
-      </h1>
+      <v-list
+        nav
+        dense
+      >
+        <v-list-item-group
+          v-model="group"
+          active-class="blue--text text--accent-4"
+        >
+          <row >
+          <h1 class="black--text mt-1 ml-2 mb-4 font-weight-black"><b class="blue--text font-weight-black mr-1">Wda</b>Livraria</h1>
+          </row>
+          <v-list-item class="mb-3" href="/">
+            <v-list-item-icon>
+              <v-icon class="blue--text">mdi-chart-line</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title class="black--text">DashBoard</v-list-item-title>
+          </v-list-item>
+            
+
+            <hr class="blue--text">
+          <v-list-item class="mb-3" href="/Cliente">
+            <v-list-item-icon>
+              <v-icon class="blue--text">mdi-account</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title class="black--text">Cliente</v-list-item-title>
+          </v-list-item>
+            <hr class="blue--text">
+
+          <v-list-item class="mb-3" href="/Editora">
+            <v-list-item-icon>
+              <v-icon class="blue--text">mdi-book-multiple</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title class="black--text" >Editora</v-list-item-title>
+          </v-list-item>
+            <hr class="blue--text">
+
+          <v-list-item class="mb-3" href="/Livro">
+            <v-list-item-icon>
+              <v-icon class="blue--text">mdi-book</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title class="black--text" >Livros</v-list-item-title>
+          </v-list-item>
+            <hr class="blue--text">
+
+          <v-list-item href="/Alugueis" class="grey lighten-2">
+            <v-list-item-icon>
+              <v-icon class="blue--text">mdi-cash</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title class="black--text">Alugueis</v-list-item-title>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer>
+    <hr>
+    
+    <v-card class=" mt-6 blue darken-3 text-center mx-12" height="50">
+      <h1 class="white--text mt-1 font-weight-black">Tabela de Alugueis</h1>
     </v-card>
-    <v-row class="mx-auto mb-5">
-      <v-card
-        class=" mt-5 purple darken-3 text-center mr-4"
-        width="350"
-        height="150"
-      >
-        <div>
-          <v-card-title class=" white--text text-center"
-            ><h3>Cliente</h3>
-          </v-card-title>
-        </div>
-        <div>
-          <h1 class=" text-center white--text ">
-            <b>{{ ultimoAluguel.cliente.nomeCliente }}</b>
-          </h1>
-        </div>
-      </v-card>
-
-      <v-card
-        class=" my-5 purple darken-3 text-center"
-        width="350"
-        height="150"
-      >
-        <div>
-          <v-card-title class=" white--text text-center mx-4"
-            ><h3>Livro</h3>
-          </v-card-title>
-        </div>
-        <div>
-          <h1 class=" text-center white--text ">
-            <b>{{ ultimoAluguel.livro.nomeLivro }}</b>
-          </h1>
-        </div>
-      </v-card>
-
-      <v-card
-        class=" my-5 purple darken-3 text-center ml-4"
-        width="350"
-        height="150"
-      >
-        <div>
-          <v-card-title class=" white--text text-center mx-4"
-            ><h3>Data do Aluguel</h3>
-          </v-card-title>
-        </div>
-        <div>
-          <h1 class=" text-center white--text ">
-            <b>{{ ultimoAluguel.data_Aluguel }}</b>
-          </h1>
-        </div>
-      </v-card>
-    </v-row>
-
-    <v-card class=" mt-12 purple darken-3 text-center mx-auto" width="1301" height="50">
-      <h1 class="white--text mt-1 font-weight-black">Tabela de Clientes</h1>
-    </v-card>
-    <v-card class="mx-6 mb-8">
-      <v-card-title>
+    <v-card class="mx-12 mb-8">
+      <v-card-title class="grey lighten-2" >
+        <v-btn
+    @click="ModalAdicionar"
+    class="ml-12  mt-4 "
+    width=auto
+    height="30"
+      depressed
+      color="primary"
+    >
+      Adicionar Um Novo Aluguel
+    </v-btn>
+        
         <v-text-field
+          class="grey lighten-2 ml-12"
           v-model="search"
           append-icon="mdi-magnify"
           label="Search"
@@ -76,86 +108,93 @@
           hide-details
         ></v-text-field>
       </v-card-title>
-      <v-data-table :headers="headers" :items="Alugueis" :search="search">
+      <v-data-table
+        :items-per-page="5"
+        class="grey lighten-2"
+        :headers="headers"
+        :items="Alugueis"
+        :search="search"
+      >
         <template v-slot:[`item.status`]="{ item }">
           <div v-if="item.entrega != '' && item.entrega < item.previsao">
-            No Prazo !
+            Entregue No Prazo !
           </div>
           <div v-if="item.entrega > item.previsao">
-            Atraso !
+            Entregue com Atraso !
           </div>
           <div v-if="item.entrega == ''">
             Não devolvido
           </div>
         </template>
         <template v-slot:[`item.actions`]="{ item }">
+          
           <div v-if="item.entrega == ''">
-            <v-btn
-              class="yellow rounded-card "
-              title="Devolver"
+            <v-icon
+              title="Entregar"
+              size="20"
+              class="red--text"
               @click="editar(item)"
-              ><v-icon size="20" class="">mdi-book-arrow-up</v-icon></v-btn
+              >mdi-book-arrow-up</v-icon
             >
           </div>
           <div v-else>
-            <v-btn title="Aluguel Devolvido" class="purple rounded-card" 
-              ><v-icon size="20">mdi-book</v-icon
-            ></v-btn>
+            <v-icon
+              title="Entregue"
+              size="20"
+              class="green--text"
+              
+
+              >mdi-book</v-icon
+            >
           </div>
         </template>
       </v-data-table>
     </v-card>
 
-    <div class="my-2">
-      <v-btn
-        color="purple darken-3"
-        dark
-        fab
-        fixed
-        bottom
-        right
-        @click="ModalAdicionar"
-      >
-        <v-icon dark>
-          mdi-plus
-        </v-icon>
-      </v-btn>
-    </div>
+    
     <v-dialog v-model="adicionar" width="unset" height="unset">
       <v-card width="490" height="400" class="text-center rounded-card">
-        <v-toolbar class="grey darken-3">
-          <span class="dark ml-2 mr-1"><b>Cadastrar </b></span>
-          <span class="white--text">Aluguel</span>
+        <v-toolbar class="white">
+          <span class="blue--text ml-2 mr-1"><b>Cadastrar </b></span>
+          <span class="black--text">Aluguel</span>
           <v-spacer></v-spacer>
-          <v-btn size="40" class="grey darken-3" @click="fecharmodel">
+          <v-btn size="40" class="white" @click="fecharmodel">
             <v-icon size="30" color="red">mdi-close</v-icon>
           </v-btn>
         </v-toolbar>
 
-        <form @submit.prevent="salvar()" ref="form"
-          lazy-validation class="py-4">
+        <v-form
+          @submit.prevent="salvar()"
+          ref="form"
+          lazy-validation
+          class="py-4"
+        >
           <v-select
+            prepend-icon="mdi-book"
+            class="mx-2"
             v-model="Aluguel.livroId"
-            :items="Livros"
+            :items="LivrosAluguel"
             item-text="nomeLivro"
             item-value="id"
             :rules="livroRules"
-            filled
             label="Livro"
+            
           ></v-select>
 
           <v-select
+            class="mx-2"
+            prepend-icon="mdi-account"
             v-model="Aluguel.clienteId"
             :items="Clientes"
             item-text="nomeCliente"
             item-value="id"
             :rules="clienteRules"
-            filled
             label="Cliente"
           ></v-select>
 
-          <div>
+          <div class="mx-2">
             <v-menu
+            
               ref="menu"
               v-model="menu"
               :close-on-content-click="false"
@@ -165,6 +204,7 @@
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
+                  :rules="dataRules"
                   v-model="date"
                   label="Previsão de entrega"
                   prepend-icon="mdi-calendar"
@@ -185,14 +225,12 @@
             </v-menu>
           </div>
 
-          <button @click="validate()" class="green darken-3 rounded-card ml-2 ">
-            <v-icon size="30" color="white" class="paS-2 ml-2"
-              >mdi-book-plus-outline</v-icon
-            ><span class="mr-3 text-center green darken-3 white--text">
-              Salvar</span
+          <button @click="validate()" class=" ">
+            <span class="mx-5 my-2 text-center green--text">
+              <b><h3>Salvar</h3></b></span
             >
           </button>
-        </form>
+        </v-form>
       </v-card>
     </v-dialog>
 
@@ -288,7 +326,6 @@
   </v-app>
 </template>
 <script>
-import NavBar from "../components/NavBar.vue";
 import Livro from "../services/Livros";
 import Cliente from "../services/Clientes";
 import Alugueis from "../services/Alugueis";
@@ -297,9 +334,7 @@ var moment = require("moment");
 
 export default {
   name: "Aluguel",
-  components: {
-    NavBar,
-  },
+  components: {},
   data() {
     return {
       Aluguel: {
@@ -310,26 +345,25 @@ export default {
       },
       search: "",
       headers: [
-        {
-          text: "Id",
-          align: "start",
-          filterable: false,
-          value: "id",
-        },
+        { text: "Cod.", value: "id" },
         { text: "Nome do livro", value: "livro.nomeLivro" },
         { text: "Nome do cliente", value: "cliente.nomeCliente" },
         { text: "Data de Aluguel", value: "data_Aluguel" },
         { text: "Previsão de Entrega", value: "previsao" },
         { text: "Entrega do Livro", value: "entrega" },
         { text: "Status", value: "status" },
-        { text: "Actions", value: "actions" },
+        { text: "", value: "actions" },
       ],
-      ultimoAluguel:[],
+
+      drawer: false,
+      group: null,
+      ultimoAluguel: [],
       activePicker: null,
       date: null,
       menu: false,
       Alugueis: [],
       Livros: [],
+      LivrosAluguel: [],
       Clientes: [],
       adicionar: false,
       alertcadastro: false,
@@ -338,14 +372,9 @@ export default {
       snackbar1: false,
       snackbar2: false,
       snackbar3: false,
-      clienteRules: [
-        (v) => !!v || "O Cliente é obrigatório !",
-
-      ],
-      livroRules: [
-        (v) => !!v || "O Livro  é obrigatório !",
-
-      ],
+      dataRules: [(v) => !!v || "A Previsão é obrigatório !"],
+      clienteRules: [(v) => !!v || "O Cliente é obrigatório !"],
+      livroRules: [(v) => !!v || "O Livro  é obrigatório !"],
     };
   },
   watch: {
@@ -354,21 +383,26 @@ export default {
     },
   },
   mounted() {
-    this.listar(), this.listarLivros(), this.listarClientes(); 
+    this.listar(), this.listarLivrosDispo() ,this.listarLivros(), this.listarClientes();
   },
   methods: {
     listar() {
-      
       Alugueis.listar().then((resposta) => {
-        (this.Alugueis = resposta.data);
-        this.ultimoAluguel=this.Alugueis[this.Alugueis.length - 1];
+        this.Alugueis = resposta.data;
+        this.ultimoAluguel = this.Alugueis[this.Alugueis.length - 1];
+      });
+    },
+    listarLivrosDispo() {
+      Livro.listar4().then((resposta) => {
+        this.LivrosAluguel = resposta.data;
+        console.log(this.LivrosAluguel);
       });
     },
 
-    validate () {
-        this.$refs.form.validate()
-      },
-      
+    validate() {
+      this.$refs.form.validate();
+    },
+
     listarLivros() {
       Livro.listar().then((resposta) => {
         this.Livros = resposta.data;
@@ -422,6 +456,21 @@ export default {
             });
         })
         
+      Livro.listar3(this.Aluguel.livroId).then((resposta2) => {
+        this.Livros = resposta2.data;
+        var save2 = {
+          id: this.Livros.id,
+          nomeLivro: this.Livros.nomeLivro,
+          lancamentoLivro: this.Livros.lancamentoLivro,
+          autorLivro: this.Livros.autorLivro,
+          quantidade: this.Livros.quantidade - 1,
+          editoraID: this.Livros.editoraID,
+        };
+        console.log(save2);
+        Livro.atualizar(save2).then((resposta3) => {
+          console.log(resposta3);
+        });
+      });
     },
     editar(Aluguel) {
       this.Aluguel = Aluguel;
@@ -444,7 +493,24 @@ export default {
       console.log(save);
       Alugueis.devolver(save).then((resposta) => {
         (this.Aluguel = resposta), this.listar(), (this.snackbar3 = true);
+        
       });
+        Livro.listar3(save.livroId).then((resposta2) => {
+        this.Livros = resposta2.data;
+        var save2 = {
+          id: this.Livros.id,
+          nomeLivro: this.Livros.nomeLivro,
+          lancamentoLivro: this.Livros.lancamentoLivro,
+          autorLivro: this.Livros.autorLivro,
+          quantidade: this.Livros.quantidade + 1,
+          editoraID: this.Livros.editoraID,
+        };
+        console.log(save2);
+        Livro.atualizar(save2).then((resposta3) => {
+          console.log(resposta3);
+        });
+      }); 
+      
     },
 
     save(date) {
@@ -455,12 +521,15 @@ export default {
         (this.Aluguel = resposta), this.listar();
       });
     },
-    
   },
 };
 </script>
 <style>
 .rounded-card {
   border-radius: 50px;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
 }
 </style>

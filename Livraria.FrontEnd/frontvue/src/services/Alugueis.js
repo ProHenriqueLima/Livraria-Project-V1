@@ -24,4 +24,7 @@ export default {
     deletar:(Id) =>{
         return http.delete('Aluguel/'+Id)
     },
+    atualizar:(Livro) =>{
+        return http.put('Livro/'+Livro.id, Livro)
+    }
 }

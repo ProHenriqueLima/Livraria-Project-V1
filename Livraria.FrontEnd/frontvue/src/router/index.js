@@ -7,6 +7,7 @@ import Livro from '../views/Livro.vue'
 import Manutencao from '../views/Manutenção.vue'
 import Alugueis from '../views/Aluguel.vue'
 
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -43,6 +44,7 @@ const routes = [
     name: 'Manutencao',
     component:Manutencao 
   },
+ 
   {
     path: '/Alugueis',
     name: 'Alugueis',

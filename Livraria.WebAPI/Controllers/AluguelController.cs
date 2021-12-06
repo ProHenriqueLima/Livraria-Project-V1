@@ -28,6 +28,7 @@ namespace Livraria.WebAPI.Controllers
             var alugueis = _repo.GetAllAluguel(includeLivro:true, includeCliente:true);
             return Ok(_mapper.Map<IEnumerable<AluguelDto>>(alugueis));
         }
+        
         [HttpGet("Livro/{LivroId}")]
         public IActionResult GetByID(int LivroId)
         {
@@ -49,14 +50,21 @@ namespace Livraria.WebAPI.Controllers
 
         [HttpPost]
         public IActionResult Post(Aluguel aluguel)
-        {
+        {   
+            var livrinho = _repo.GetAllLivroByID(aluguel.LivroId,includeEditora:false);
+            if (livrinho.Quantidade <= 0){
+                return BadRequest("Este Livro Não Está Disponivel Para Alugar");
+            }else{
+           
             _repo.Add(aluguel);
+
            if (_repo.SaveChanges())
            {
                var aluguelDto = _mapper.Map<AluguelDto>(aluguel);
                return Ok(aluguelDto);
            }
            return BadRequest("Aluguel não Concluido");
+          }
         }
 
 

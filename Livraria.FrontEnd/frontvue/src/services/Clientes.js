@@ -4,6 +4,9 @@ export default {
     listar:() =>{
         return http.get('Cliente')
     },
+    listar2:(email) =>{
+        return http.get('Cliente/email/'+email)
+    },
     salvar:(Cliente) =>{
         return http.post('Cliente', Cliente)
     },

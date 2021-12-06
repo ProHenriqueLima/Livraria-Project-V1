@@ -1,24 +1,80 @@
 <template>
-    <div class="mt-4 mb-6 mx-auto white--text"> 
-      <v-card  width="500" height="250" class="grey lighten-1 ">
-        <v-card  width="480" height="250" class="grey lighten-1 mx-auto mt-2">
-      <apexchart width="400" type="donut" :options="options" :series="series" class="text" ></apexchart>
-        </v-card>
-      </v-card>
-    </div>
-</template>
-<script>
-  
-  export default {
-    data: function() {
-    return {
-      options: {
-        
-        labels: ['Devolvidos', 'Não Devolvidos'], color:  '#FFFFFF',
+    <v-row justify="center" >
+        <apexchart v-if="!loading" width="450" ref="chart" :options="options" :series="series"></apexchart>
        
-      },
-      series: [0, 1]
+        
+    </v-row>
+    
+</template>
+
+<script>
+import Aluguel from '../services/Alugueis';
+export default {
+    name: 'graficoPie',
+    data() {
+        return {
+            loading: true,
+            alugueis: [],
+            series: [0, 0, 0],
+            options: {
+                chart: {
+                    type: 'pie'
+                },
+                labels: ['Sem atraso', 'Atrasado', 'Pendente'],
+
+            
+               
+                noData: {
+                    text: 'Carregando...'
+                },
+                animations: {
+                    enabled: true
+                },
+                
+                responsive: [
+                    {
+                        breakpoint: 720,
+                        options: {
+                            chart: {
+                                width: 300
+                            },
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                ]
+            }
+        };
+    },
+    methods: {
+        initialize() {
+            Aluguel.listar().then(res => {
+                this.alugueis = res.data;
+
+                this.alugueis.forEach(a => {
+                    if (a.entrega != '' && a.entrega < a.previsao) {
+                        this.series[0]++;
+                    }
+                });
+                this.alugueis.forEach(a => {
+                    if (a.entrega > a.previsao) {
+                        this.series[1]++;
+                    }
+                });
+                this.alugueis.forEach(a => {
+                    if (a.entrega == '') {
+                        this.series[2]++;
+                    }
+                });
+                this.loading = false;
+            });
+        }
+    },
+    created() {
+        this.initialize();
     }
-  }
-  }
+};
 </script>
+
+<style></style>

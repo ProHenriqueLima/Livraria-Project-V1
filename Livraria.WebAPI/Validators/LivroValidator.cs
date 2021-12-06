@@ -27,9 +27,7 @@ namespace Livraria.WebAPI.Validators
              RuleFor(q => q.EditoraID)
                 .NotEmpty()
                     .WithMessage("A Editora deve ser válida !");
-            RuleFor(p => p.Quantidade)
-                .NotEmpty()
-                    .WithMessage("A quantidade deve ser válida ! !");
+            
             
                
         }

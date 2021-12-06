@@ -51,6 +51,15 @@ namespace Livraria.WebAPI.Controllers
 
             return Ok(_mapper.Map<IEnumerable<LivroDto>>(livro));
         }
+
+        [HttpGet("LivroAluguel")]
+        public IActionResult GetAll()
+        {
+            var livro = _repo.GetAllLivroQuatidade(includeEditora:true) ;
+            if (livro == null) return BadRequest("Livro não encontrado");
+
+            return Ok(_mapper.Map<IEnumerable<LivroDto>>(livro));
+        }
                 // Metódos !
 
 
