@@ -49,7 +49,9 @@ namespace Livraria.WebAPI
             
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Livraria.WebAPI", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Livraria ",
+                Description = "Api da Livraria Feita Pelo Desebvolvedor Carlos Henrique" ,
+                Version = "v1" });
             });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }

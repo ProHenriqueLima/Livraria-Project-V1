@@ -147,7 +147,7 @@
           </v-card-title>
      <graficos /> 
     </v-card>
-    <v-card class=" mt-6 grey lighten-2" width="500"
+    <v-card class=" mt-6 ml-5 grey lighten-2" width="500"
           height="350">
           <v-card-title class="mx-auto text-center">
               <v-icon class="indigo--text" size=30>mdi-cash</v-icon><b class="ml-2">Ultimo Aluguel</b>

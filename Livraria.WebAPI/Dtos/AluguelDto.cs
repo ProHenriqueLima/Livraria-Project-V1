@@ -12,5 +12,6 @@ namespace Livraria.WebAPI.Dtos
         public string Data_Aluguel { get; set; }
         public string Previsao { get; set; }
         public string Entrega { get; set; }
+        public string Status { get; set; }
     }
 }

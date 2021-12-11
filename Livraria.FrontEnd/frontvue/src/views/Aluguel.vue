@@ -115,17 +115,6 @@
         :items="Alugueis"
         :search="search"
       >
-        <template v-slot:[`item.status`]="{ item }">
-          <div v-if="item.entrega != '' && item.entrega < item.previsao">
-            Entregue No Prazo !
-          </div>
-          <div v-if="item.entrega > item.previsao">
-            Entregue com Atraso !
-          </div>
-          <div v-if="item.entrega == ''">
-            Não devolvido
-          </div>
-        </template>
         <template v-slot:[`item.actions`]="{ item }">
           
           <div v-if="item.entrega == ''">
@@ -180,7 +169,7 @@
             label="Livro"
             
           ></v-select>
-
+      
           <v-select
             class="mx-2"
             prepend-icon="mdi-account"
@@ -342,6 +331,7 @@ export default {
         clienteId: "",
         data_Aluguel: "",
         entrega: "",
+        status: "",
       },
       search: "",
       headers: [
@@ -489,11 +479,31 @@ export default {
         previsao: this.Aluguel.previsao,
         entrega: dt,
       };
-
+        if(save.entrega != '' && save.entrega < save.previsao){
+            save = {
+              id: this.Aluguel.id,
+              livroId: this.Aluguel.livroId,
+              clienteId: this.Aluguel.clienteId,
+              data_Aluguel: this.Aluguel.data_Aluguel,
+              previsao: this.Aluguel.previsao,
+              entrega: dt,
+              status: "Entregue no Prazo"
+            };
+        }
+        if (save.entrega > save.previsao){
+            save = {
+              id: this.Aluguel.id,
+              livroId: this.Aluguel.livroId,
+              clienteId: this.Aluguel.clienteId,
+              data_Aluguel: this.Aluguel.data_Aluguel,
+              previsao: this.Aluguel.previsao,
+              entrega: dt,
+              status: "Entregue com atraso"
+            };
+        }
       console.log(save);
       Alugueis.devolver(save).then((resposta) => {
         (this.Aluguel = resposta), this.listar(), (this.snackbar3 = true);
-        
       });
         Livro.listar3(save.livroId).then((resposta2) => {
         this.Livros = resposta2.data;

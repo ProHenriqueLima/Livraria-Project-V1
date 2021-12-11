@@ -8,7 +8,8 @@ namespace Livraria.WebAPI.Models
     public class Aluguel
     {
 
-        public Aluguel(int id, int clienteId, int livroId, string data_Aluguel, string previsao, string entrega)
+        public Aluguel(int id, int clienteId, int livroId, string data_Aluguel, string previsao, string entrega, string status
+        )
         {
             this.Id = id;
             this.ClienteId = clienteId;
@@ -16,6 +17,7 @@ namespace Livraria.WebAPI.Models
             this.Data_Aluguel= data_Aluguel;
             this.Previsao = previsao;
             this.Entrega = entrega;
+            this.Status = status;
 
         }
         public int Id { get; set; }
@@ -26,6 +28,7 @@ namespace Livraria.WebAPI.Models
         public string Data_Aluguel { get; set;}
         public string Previsao { get; set;}
         public string Entrega { get; set;}
+        public string Status { get; set;}
 
     }
 }
